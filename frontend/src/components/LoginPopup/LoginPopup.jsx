@@ -159,8 +159,8 @@ const LoginPopup = ({ setShowLogin }) => {
       currState === "Sign Up" ? "/api/auth/register" : "/api/auth/login";
 
     try {
-        const { data } = await apiRequest.post(endpoint, { name, email, password });
-
+      const { data } = await apiRequest.post(endpoint, { name, email, password });
+      console.log("body");
       toast.success(`${currState} successful!`);
 
       // Store user info and auth token locally
@@ -168,18 +168,14 @@ const LoginPopup = ({ setShowLogin }) => {
       if (data.token) {
         localStorage.setItem("authToken", data.token);
       }
-
       setShowLogin(false);
       window.location.reload();
     } catch (err) {
-      const message =
-        err.response?.data?.message || `${currState} failed. Please try again.`;
+      const message = err.response?.data?.message || `${currState} failed. Please try again.`;
       toast.error(message);
       console.error(err);
     }
   };
-
-
 
   return (
     <div className='LoginPopup'>
@@ -307,7 +303,7 @@ const LoginPopup = ({ setShowLogin }) => {
                 </div>
               )}
               
-              <button type="submit">{currState === 'Sign Up' ? "Create Account" : "Login"}</button>
+              <button type="submit"   onclick={handleSubmit}  >{currState === 'Sign Up' ? "Create Account" : "Login"}</button>
               {currState === "Login" && (
                 <p className="forgot-password-link" onClick={() => {
                   setForgotFlow(true);

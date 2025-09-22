@@ -11,31 +11,21 @@ const ExploreMenu = ({ category, setCategory }) => {
   const pauseTimeoutRef = useRef(null);
 
   // Auto-scroll function using requestAnimationFrame for smooth animation
-  const autoScroll = () => {
-    if (isPaused || isHovered || !scrollRef.current) {
-      return; //  Stop animation completely while hovered/paused
-    }
+ const autoScroll = () => {
+  if (isPaused || isHovered || !scrollRef.current) return;
 
-    const container = scrollRef.current;
-    const scrollSpeed = 0.5; // Pixels per frame
-    
-    // Move forward
-    container.scrollLeft += scrollSpeed;
-    
-    // Calculate when to reset with better precision
-    const scrollWidth = container.scrollWidth;
-    const halfWidth = scrollWidth / 2;
-    const resetBuffer = 20; // Small buffer to ensure clean reset
-    
-    // Reset when we've scrolled past the first set (with buffer)
-    if (container.scrollLeft >= halfWidth - resetBuffer) {
-      container.scrollLeft = 0;
-      console.log("Auto-scroll reset triggered"); // Debug log
-    }
-    
-    // Continue the animation
-    animationRef.current = requestAnimationFrame(autoScroll);
-  };
+  const container = scrollRef.current;
+  const scrollSpeed = 0.5;
+
+  const scrollWidth = container.scrollWidth;
+  const halfWidth = scrollWidth / 2;
+
+  // Smooth looping scroll
+  container.scrollLeft = (container.scrollLeft + scrollSpeed) % halfWidth;
+
+  animationRef.current = requestAnimationFrame(autoScroll);
+};
+
 
   // Manual scroll with arrows
   const handleManualScroll = (direction) => {

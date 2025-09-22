@@ -7,6 +7,7 @@ import fs from 'fs';
 const addFood = async (req, res) => {
   try {
     const body = { ...req.body };
+    console.log(body);
     console.log("Parsed restaurantId:", body.restaurantId);
     console.log("Type:", typeof body.restaurantId);
 
