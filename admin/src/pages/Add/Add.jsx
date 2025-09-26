@@ -7,6 +7,7 @@ const Add = ({url}) => {
     const [image, setImage] = useState(false);
     const [data, setData] = useState({
         name: '',
+        restaurantId:'',
         description: '',
         category: 'Salad',
         price: ''
@@ -27,15 +28,17 @@ const Add = ({url}) => {
         const formData = new FormData();
         formData.append('image', image);
         formData.append('name', data.name);
+        formData.append('restaurantId', data.restaurantId);
         formData.append('description', data.description);
         formData.append('category', data.category);
         formData.append('price', Number(data.price));
 
-        const response = await axios.post(`${url}/api/food/add`, formData);
+        const response = await axios.post(`${url}api/food/add`, formData);
         if(response.data.success) {
             toast.success(response.data.message);
             setData({
                 name: '',
+                restaurantId:'',
                 description: '',
                 category: 'Salad',
                 price: ''
@@ -61,6 +64,11 @@ const Add = ({url}) => {
         <div className='add-product-name flex-col'>
           <p>Product Name</p>
           <input onChange={onChangeHandler} value={data.name} type="text" name='name' placeholder='Type Here' required />
+        </div>
+
+        <div className="add-product-restaurant flex-col">
+          <p>Restaurant Id</p>
+          <input onChange={onChangeHandler} value={data.restaurantId} type="text" name="restaurantId"  placeholder="Id" required />
         </div>
 
         <div className="add-product-description flex-col">
